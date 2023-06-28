@@ -1,0 +1,15 @@
+{
+  "Node": "external-service",
+  "Address": "ae42cea31c4fd46e7ad9775bd0ba1d75-1485743160.ap-southeast-1.elb.amazonaws.com",
+  "NodeMeta": {
+    "external-node": "true",
+    "external-probe": "true"
+  },
+  "Service": {
+    "ID": "external-service-v1",
+    "Service": "external-service",
+    "Port": 80
+  },
+  "Partition": "default"
+}
+  

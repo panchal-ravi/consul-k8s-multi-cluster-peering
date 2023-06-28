@@ -1,0 +1,61 @@
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend-dc1a-default
+  namespace: default
+spec:
+  destination:
+    name: backend-dc1a-default
+  sources:
+  - name: frontend
+    action: allow
+--- 
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend-dc1b-default
+  namespace: default
+spec:
+  destination:
+    name: backend-dc1b-default
+  sources:
+  - name: frontend
+    action: allow
+--- 
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend-dc1b
+  namespace: default
+spec:
+  destination:
+    name: backend-dc1b
+  sources:
+  - name: frontend
+    action: allow
+--- 
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend-dc1a
+  namespace: default
+spec:
+  destination:
+    name: backend-dc1a
+  sources:
+  - name: frontend
+    action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend
+  namespace: default
+spec:
+  destination:
+    name: backend
+  sources:
+  - name: frontend
+    action: allow
+

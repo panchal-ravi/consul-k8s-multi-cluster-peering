@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      name: web
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-admin
+  labels:
+    # 'consul.hashicorp.com/service-ignore': 'true'
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      name: web
+      labels:
+        app: web
+      annotations:
+        'consul.hashicorp.com/connect-inject': 'true'
+        # 'consul.hashicorp.com/transparent-proxy': 'false'
+        'consul.hashicorp.com/connect-service': 'web'
+        'consul.hashicorp.com/connect-service-port': '8080'
+        # 'consul.hashicorp.com/connect-service-port': '8080,9090'
+        # 'consul.hashicorp.com/enable-metrics-merging': 'false'
+        # 'consul.hashicorp.com/enable-metrics': 'false'
+        'consul.hashicorp.com/transparent-proxy-exclude-inbound-ports': '9090'
+    spec:
+      containers:
+        - name: web
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:8080'
+            - name: 'NAME'
+              value: 'web'
+            - name: 'MESSAGE'
+              value: 'Hello World from web:8080'
+          ports:
+            - containerPort: 8080
+              name: http
+        - name: web-admin
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 9090
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:9090'
+            - name: 'NAME'
+              value: 'web-admin'
+            - name: 'MESSAGE'
+              value: 'Hello World from web-admin:9090'
+          ports:
+            - containerPort: 9090
+              name: http
+      serviceAccountName: web
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: web
+spec:
+  protocol: http

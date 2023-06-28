@@ -1,0 +1,13 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: backend
+spec:
+  routes:
+  - destination:
+      requestTimeout: 10s
+      numRetries: 5
+      retryOnConnectFailure: true
+      # retryOn: ["5xx", "reset", "retriable-4xx", "internal"]
+      retryOnStatusCodes: [500, 501, 502, 503]
+

@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fake-service
+spec:
+  selector:
+    app: fake-service
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 9090
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fake-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fake-service
+  labels:
+    app: fake-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fake-service
+  template:
+    metadata:
+      labels:
+        app: fake-service
+      annotations:
+        consul.hashicorp.com/connect-inject: 'false'
+        consul.hashicorp.com/enable-metrics-merging: "false"
+        # consul.hashicorp.com/connect-service-upstreams: 'fake-service:9091,backend:9092'
+        # consul.hashicorp.com/connect-service-upstreams: 'jsonplaceholder-http:9091,jsonplaceholder:9092'
+    spec:
+      serviceAccountName: fake-service
+      containers:
+        - name: fake-service
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:9090'
+            - name: 'NAME'
+              value: 'fake-service'
+            - name: 'MESSAGE'
+              value: 'external-fake-service'
+          securityContext:
+            privileged: true

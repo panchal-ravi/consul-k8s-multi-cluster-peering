@@ -1,0 +1,65 @@
+global:
+  enabled: false
+  name: dc1-client1
+  logLevel: debug
+  metrics:
+    enabled: true
+  image: "hashicorp/consul-enterprise:1.14.1-ent"
+  adminPartitions:
+    enabled: true
+    name: client1
+  peering:
+    enabled: true
+  datacenter: dc1a
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+    caCert:
+      secretName: consul-ca-cert
+      secretKey: tls.crt
+    caKey:
+      secretName: consul-ca-key
+      secretKey: tls.key
+  acls:
+    manageSystemACLs: true
+    bootstrapToken:
+      secretName: consul-partitions-acl-token
+      secretKey: token
+  enableConsulNamespaces: true
+  enterpriseLicense:
+    secretName: license
+    secretKey: key
+externalServers:
+  enabled: true
+  hosts: [ad6e34e4677574d5da78e406f507ffd8-2122251551.ap-southeast-1.elb.amazonaws.com]
+  tlsServerName: server.dc1a.consul
+  k8sAuthMethodHost: https://5831095C841FA6FA7D8A0E9E7C396629.gr7.ap-southeast-1.eks.amazonaws.com
+dns:
+  enabled: true
+connectInject:
+  enabled: true
+  transparentProxy:
+    defaultEnabled: false
+  consulNamespaces:
+    mirroringK8S: true
+controller:
+  enabled: true
+ingressGateways:
+  enabled: true
+  defaults:
+    replicas: 1
+    service:
+      type: LoadBalancer
+      ports:
+        - port: 8080
+      annotations: |
+        "service.beta.kubernetes.io/aws-load-balancer-type": "external"
+        "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type": "ip"
+        "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing"
+meshGateway:
+  enabled: true
+  replicas: 1
+terminatingGateways:
+  enabled: true
+  defaults:
+    replicas: 1

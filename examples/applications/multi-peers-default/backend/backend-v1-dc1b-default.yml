@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 9091
+      targetPort: 9091
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backend
+---
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: backend
+spec:
+  protocol: "http"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v1
+  labels:
+    app: backend
+    release: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      release: v1
+  template:
+    metadata:
+      labels:
+        app: backend
+        release: v1
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/service-meta-version: "v1"
+        consul.hashicorp.com/enable-metrics-merging: "false"
+    spec:
+      serviceAccountName: backend
+      containers:
+        - name: backend
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 9091
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:9091'
+            - name: 'NAME'
+              value: 'backend-v1-dc1b-default'
+            - name: 'MESSAGE'
+              value: 'backend-v1-dc1b-default'
+          securityContext:
+            privileged: true

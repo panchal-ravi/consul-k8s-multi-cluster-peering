@@ -1,0 +1,77 @@
+global:
+  enabled: false
+  name: ${datacenter}-${partition_name}
+  logLevel: debug
+  metrics:
+    enabled: true
+  image: "hashicorp/consul-enterprise:${consul_version}"
+  adminPartitions:
+    enabled: true
+    name: ${partition_name}
+  peering:
+    enabled: true
+  datacenter: ${datacenter}
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+    caCert:
+      secretName: consul-ca-cert
+      secretKey: tls.crt
+    caKey:
+      secretName: consul-ca-key
+      secretKey: tls.key
+  acls:
+    manageSystemACLs: true
+    bootstrapToken:
+      secretName: consul-partitions-acl-token
+      secretKey: token
+  enableConsulNamespaces: true
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+externalServers:
+  enabled: true
+  hosts: [${partition_service_fqdn}]
+  tlsServerName: server.${datacenter}.consul
+  k8sAuthMethodHost: ${cluster_api_endpoint}
+# client:
+#   enabled: true
+#   join: [${partition_service_fqdn}]
+#   securityContext:
+#     runAsNonRoot: false
+#     runAsUser: 0
+dns:
+  enabled: true
+  enableRedirection: true
+ui:
+  service:
+    type: LoadBalancer
+connectInject:
+  enabled: true
+  # envoyExtraArgs: "--log-level debug"
+  consulNamespaces:
+    mirroringK8S: true
+controller:
+  enabled: true
+# apiGateway:
+#   enabled: true
+#   image: "hashicorp/consul-api-gateway:0.5.1"
+#   managedGatewayClass:
+#     serviceType: LoadBalancer
+ingressGateways:
+  enabled: true
+  defaults:
+    replicas: ${replicas}
+    service:
+      type: LoadBalancer
+      ports:
+        - port: 80
+meshGateway:
+  enabled: true
+  replicas: 1
+terminatingGateways:
+  enabled: true
+  defaults:
+    replicas: ${replicas}
+  # gateways:
+  #   - name: https-terminating-gateway

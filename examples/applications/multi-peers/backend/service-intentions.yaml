@@ -1,0 +1,13 @@
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: backend
+  namespace: default
+spec:
+  destination:
+    name: backend
+  sources:
+  - name: frontend
+    peer: dc1-hr
+    action: allow

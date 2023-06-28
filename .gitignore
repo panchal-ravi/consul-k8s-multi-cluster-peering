@@ -1,0 +1,16 @@
+.terraform/
+generated/*
+.envrc
+private-key/*
+quorum/*
+kubeconfig
+terraform.tfstate*
+.terraform*
+notes
+rp-*
+web.yaml
+consul-ca.crt
+set-loglevel.sh
+.DS_Store
+files/consul/*
+files/**/license*.*

@@ -1,0 +1,11 @@
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: IngressGateway
+metadata:
+  name: ingress-gateway
+spec:
+  listeners:
+    - port: 3306
+      protocol: tcp
+      services:
+        - name: mysql

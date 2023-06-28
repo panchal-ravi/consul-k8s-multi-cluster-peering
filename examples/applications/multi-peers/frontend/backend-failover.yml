@@ -1,0 +1,12 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: backend
+spec:
+  connectTimeout: 15s
+  failover:
+    '*':
+      targets:
+        - peer: dc2-finance
+          service: backend
+          namespace: default

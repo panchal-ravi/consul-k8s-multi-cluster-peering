@@ -1,0 +1,15 @@
+{
+  "Node": "fake-service-finance",
+  "Address": "a80de1f560e1a4901971cc76b915286e-1586556835.ap-southeast-1.elb.amazonaws.com",
+  "NodeMeta": {
+    "external-node": "true",
+    "external-probe": "true"
+  },
+  "Service": {
+    "ID": "fake-service-finance-v1",
+    "Service": "fake-service-finance",
+    "Port": 80
+  },
+  "Partition": "finance"
+}
+  

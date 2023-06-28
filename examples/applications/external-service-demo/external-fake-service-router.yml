@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: fake-service-finance
+spec:
+  routes:
+    - destination:
+        requestTimeout: 25s
+        numRetries: 3
+        retryOnConnectFailure: true

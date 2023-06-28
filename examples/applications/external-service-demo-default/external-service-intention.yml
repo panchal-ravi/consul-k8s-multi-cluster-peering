@@ -1,0 +1,16 @@
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: external-service
+spec:
+  destination:
+    name: external-service
+  sources:
+    - name: web
+      action: allow
+    # - name: frontend
+    #   peer: dc1-default
+    #   action: allow
+    # - name: ingress-gateway
+    #   action: allow

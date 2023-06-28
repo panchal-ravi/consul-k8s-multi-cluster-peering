@@ -1,0 +1,15 @@
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: mysql-route
+  namespace: default
+spec:
+  parentRefs:
+  - name: api-gateway
+  rules:
+  - backendRefs:
+    - kind: Service
+      name: mysql
+      namespace: default
+      port: 3306
