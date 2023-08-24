@@ -1,6 +1,6 @@
 {
     "Node": "external-service",
-    "Address": "a863c687d3867420aad6f4e7e67a3b7e-1071203489.ap-southeast-1.elb.amazonaws.com",
+    "Address": "a3aab0e9c8dba4cd68c3c7a3698afc60-1043337788.ap-southeast-1.elb.amazonaws.com",
     "ServiceID": "external-service-v1",
     "Partition": "default"
 }

@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search
+spec:
+  selector:
+    app: search
+  ports:
+    - port: 8080
+      targetPort: 9090
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: search
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: search
+spec:
+  protocol: "http"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search
+  labels:
+    app: search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search
+  template:
+    metadata:
+      labels:
+        app: search
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        # consul.hashicorp.com/connect-service-upstreams: 'product:9091'
+        # consul.hashicorp.com/connect-service-upstreams: 'external-service.svc.default.ns.dc2-default.peer:9091,product.svc.default.ns.dc2-default.peer:9092'
+        consul.hashicorp.com/enable-metrics-merging: "false"
+    spec:
+      serviceAccountName: search
+      containers:
+        - name: search
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 9090
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:9090'
+            - name: 'UPSTREAM_URIS'
+              value: 'http://product.virtual.consul' 
+            - name: 'NAME'
+              value: 'search'
+            - name: 'MESSAGE'
+              value: 'service-v1-dc2'
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"

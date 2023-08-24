@@ -51,6 +51,7 @@ kubectl delete -f examples/applications/multi-peers-default/backend/service-inte
 kubectl delete -f examples/applications/multi-peers-default/backend/backend-v1-dc1a-default.yml --context $S1a
 
 kubectl delete -f examples/applications/multi-peers-default/frontend/frontend.yml --context $S2
+kubectl apply -f examples/applications/multi-peers-default/frontend/service-intentions-backend.yml --context $S2
 kubectl delete -f examples/applications/multi-peers-default/frontend/backend1a-resolver.yml --context $S2
 kubectl delete -f examples/applications/multi-peers-default/frontend/backend1b-resolver.yml --context $S2
 kubectl delete -f examples/applications/multi-peers-default/frontend/backend-failover.yml --context $S2

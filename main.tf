@@ -4,10 +4,10 @@ locals {
   local_privatekey_filename = "ssh-key.pem"
   consul_datacenters        = ["dc1a", "dc1b", "dc2"]
   eks_clusters = {
-    "dc1-server"  = {}
-    "dc1-serverb"  = {}
+    "dc1-server" = {}
+    /* "dc1-serverb"  = {} */
     /* "dc1-client1" = {} */
-    "dc2-server"  = {}
+    /* "dc2-server"  = {} */
     /* dc2-client1" = {}  */
   }
 }
@@ -164,4 +164,15 @@ module "consul-dc2-client1" {
   depends_on = [
     module.consul-dc2-server
   ]
+}
+
+module "consul-acl" {
+  source = "./modules/consul/aws/consul-acl"
+  providers = {
+    consul = consul.dc1-server
+  }
+  datacenter   = local.consul_datacenters[0]
+  consul_token = module.consul-dc1-server.consul-bootstrap-acl-token.token
+  consul_addr  = module.consul-dc1-server.ui_public_fqdn
+  depends_on   = [module.consul-dc1-server]
 }

@@ -1,0 +1,13 @@
+{
+    "Name": "consul-terminating-gateway-acl-role",
+    "Description": "ACL Role for consul-terminating-gateway",
+    "Policies": [
+      {
+        "ID": "ab0030f4-2630-05eb-81f9-42a541f1f56a"
+      },
+      {
+        "ID": "c39a1e7d-5828-e57e-3cd5-6a13813441f8"
+      }
+    ]
+  }
+  

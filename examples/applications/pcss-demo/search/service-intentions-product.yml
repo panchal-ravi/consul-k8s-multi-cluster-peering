@@ -1,0 +1,37 @@
+---
+# apiVersion: consul.hashicorp.com/v1alpha1
+# kind: ServiceIntentions
+# metadata:
+#   name: product-dc1a-default
+#   namespace: default
+# spec:
+#   destination:
+#     name: product-dc1a-default
+#   sources:
+#   - name: search
+#     action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: product
+  namespace: default
+spec:
+  destination:
+    name: product
+  sources:
+  - name: search
+    action: allow
+--- 
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: ingress-gateway
+  namespace: default
+spec:
+  destination:
+    name: search
+  sources:
+  - name: ingress-gateway
+    action: allow
+

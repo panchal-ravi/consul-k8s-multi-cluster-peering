@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: external-service
+spec:
+  protocol: http
+  destination:
+    addresses:
+      - "a3aab0e9c8dba4cd68c3c7a3698afc60-1043337788.ap-southeast-1.elb.amazonaws.com"
+    port: 80

@@ -58,3 +58,18 @@ source ./scripts/s2.sh
 export QUERY_ID=$(curl -s -k -H "X-Consul-Token: $CONSUL_HTTP_TOKEN" $CONSUL_HTTP_ADDR/v1/query | jq ".[].ID" -r)
 curl -s -k -H "X-Consul-Token: $CONSUL_HTTP_TOKEN" -X DELETE $CONSUL_HTTP_ADDR/v1/query/$QUERY_ID
 ```
+
+
+## Delete backend deployments
+```
+kubectl delete -f examples/applications/multi-peers-default/backend/backend-v1-dc1a-default.yml --context $S1a
+kubectl delete -f examples/applications/multi-peers-default/backend/export-service-backend-dc1a-to-dc2.yml --context $S1a
+kubectl delete -f examples/applications/multi-peers-default/backend/service-intentions-dc1a.yaml --context $S1a
+
+kubectl delete -f examples/applications/multi-peers-default/backend/backend-v1-dc1b-default.yml --context $S1b
+kubectl delete -f examples/applications/multi-peers-default/backend/export-service-backend-dc1b-to-dc2.yml --context $S1b
+kubectl delete -f examples/applications/multi-peers-default/backend/service-intentions-dc1b.yaml --context $S1b
+
+kubectl delete -f examples/applications/multi-peers-default/frontend/frontend.yml --context $S2
+kubectl delete -f examples/applications/multi-peers-default/backend/backend-v1-dc2-default.yml --context $S2
+```

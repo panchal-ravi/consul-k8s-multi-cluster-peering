@@ -1,0 +1,32 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: backend
+spec:
+  defaultSubset: az1
+  subsets:
+    az1:
+      filter: 'Service.Meta.version == "v1-az1"'
+    az2:
+      filter: 'Service.Meta.version == "v1-az2"'
+    # az3:
+    #   filter: 'Service.Meta.version == "v1-az3"'
+  loadBalancer:
+    policy: maglev
+    hashPolicies:
+    - sourceIP: true
+  failover:
+    az1:
+      targets:
+      - serviceSubset: az2
+      # - serviceSubset: az3
+    az2:
+      targets:
+      - serviceSubset: az1
+      # - serviceSubset: az3
+    # az3:
+    #   targets:
+    #   - serviceSubset: az1
+    #   - serviceSubset: az2
+
+

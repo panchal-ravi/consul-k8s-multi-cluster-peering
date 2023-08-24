@@ -145,8 +145,10 @@ provider "helm" {
 }
 
 provider "consul" {
-  address        = module.consul-server.ui_public_fqdn
+  alias          = "dc1-server"
+  address        = module.consul-dc1-server.ui_public_fqdn
   scheme         = "https"
-  datacenter     = "dc1"
+  datacenter     = local.consul_datacenters[0]
+  token          = module.consul-dc1-server.consul-bootstrap-acl-token.token
   insecure_https = true
 }

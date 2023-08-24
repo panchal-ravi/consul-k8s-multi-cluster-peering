@@ -1,0 +1,91 @@
+global:
+  enabled: true
+  name: consul
+  logLevel: info
+  metrics:
+    enabled: true
+  peering:
+    enabled: true
+  adminPartitions:
+    enabled: true
+    # service:
+    #   type: LoadBalancer
+      # annotations: |
+      #   'service.beta.kubernetes.io/aws-load-balancer-internal': "true"
+  image: "hashicorp/consul-enterprise:1.16.1-ent"
+  # imageK8S: "hashicorp/consul-k8s-control-plane:consul_k8s_version"
+  datacenter: dc1a
+  acls:
+    manageSystemACLs: true
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+  enableConsulNamespaces: true
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+server:
+  replicas: 1
+  bootstrapExpect: 1
+  exposeGossipAndRPCPorts: false
+  storageClass: "gp2-immediate"
+  exposeService:
+    enabled: true
+    type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
+    #   "service.beta.kubernetes.io/aws-load-balancer-internal": "true"
+  securityContext:
+    runAsNonRoot: false
+    runAsUser: 0
+  # ports:
+  #   serflan:
+  #     port: 9301
+dns:
+  enabled: true
+  enableRedirection: true
+ui:
+  service:
+    type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
+connectInject:
+  enabled: true
+  apiGateway:
+    manageExternalCRDs: true
+  consulNamespaces:
+    mirroringK8s: true
+  # envoyExtraArgs: "--log-level=debug"
+controller:
+  enabled: true
+meshGateway:
+  enabled: true
+  service:
+    type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
+  replicas: 1
+terminatingGateways:
+  enabled: true
+  defaults:
+    replicas: 1
+ingressGateways:
+  enabled: true
+  defaults:
+    replicas: 1
+    service:
+      type: LoadBalancer
+      annotations: |
+        "service.beta.kubernetes.io/aws-load-balancer-type": "external"
+        "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type": "ip"
+        "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing"
+      ports:
+        - port: 8080
+  # gateways:
+  # - name: ingress-gateway
+  #   service:
+  #     type: LoadBalancer
+# client:
+#   enabled: true
+# prometheus:
+#   enabled: true

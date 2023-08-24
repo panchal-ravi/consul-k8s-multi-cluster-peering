@@ -1,0 +1,14 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: backend
+spec:
+  loadBalancer:
+    policy: maglev
+    hashPolicies:
+    - sourceIP: true
+    # policy: ring_hash
+    # ringHashConfig:
+    #   minimumRingSize: 
+    #   maximumRingSize: 2
+

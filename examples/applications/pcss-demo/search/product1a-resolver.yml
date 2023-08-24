@@ -1,0 +1,9 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceResolver
+metadata:
+  name: product-dc1a-default
+spec:
+  redirect:
+    peer: dc1a-default
+    service: product
+

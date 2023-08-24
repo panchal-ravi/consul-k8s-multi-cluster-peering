@@ -1,0 +1,8 @@
+{
+  "Name": "backend",
+  "Service": {
+    "Service": "backend",
+    "SamenessGroup": "default",
+    "OnlyPassing": false
+  }
+}

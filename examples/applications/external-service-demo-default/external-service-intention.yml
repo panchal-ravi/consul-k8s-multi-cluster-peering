@@ -9,8 +9,8 @@ spec:
   sources:
     - name: web
       action: allow
-    # - name: frontend
-    #   peer: dc1-default
-    #   action: allow
+    - name: frontend
+      peer: dc1a-default
+      action: allow
     # - name: ingress-gateway
     #   action: allow

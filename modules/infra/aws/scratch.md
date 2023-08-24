@@ -1,5 +1,5 @@
 eksctl create iamserviceaccount \
-  --cluster=rp-cpeer-ogki5jne-dc1-server \
+  --cluster=rp-cpeer-rzxrtgg0-dc1-server \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
   --role-name AmazonEKSLoadBalancerControllerRole_dc1_server \
@@ -37,7 +37,7 @@ eksctl create iamserviceaccount \
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
-  --set clusterName=rp-cpeer-ogki5jne-dc1-server \
+  --set clusterName=rp-cpeer-rzxrtgg0-dc1-server \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller 
 

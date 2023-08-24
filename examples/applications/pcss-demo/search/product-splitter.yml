@@ -1,0 +1,10 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceSplitter
+metadata:
+  name: product
+spec:
+  splits:
+    - weight: 50
+      service: product-dc1a-default
+    - weight: 50
+      # service: product ## defaults to service with same name as configuration entry ("frontend")

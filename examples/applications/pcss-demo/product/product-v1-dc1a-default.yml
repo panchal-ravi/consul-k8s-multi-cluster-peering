@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product
+spec:
+  selector:
+    app: product
+  ports:
+    - port: 9091
+      targetPort: 9091
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: product
+---
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: product
+spec:
+  protocol: "http"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-v1
+  labels:
+    app: product
+    release: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+      release: v1
+  template:
+    metadata:
+      labels:
+        app: product
+        release: v1
+      annotations:
+        consul.hashicorp.com/connect-inject: 'true'
+        consul.hashicorp.com/service-meta-version: "v1"
+        consul.hashicorp.com/enable-metrics-merging: "false"
+    spec:
+      serviceAccountName: product
+      containers:
+        - name: product
+          image: panchalravi/fake-service:0.24.2
+          ports:
+            - containerPort: 9091
+          env:
+            - name: 'LISTEN_ADDR'
+              value: '0.0.0.0:9091'
+            - name: 'NAME'
+              value: 'product-v1-dc1a'
+            - name: 'MESSAGE'
+              value: 'product-v1-dc1a'
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          

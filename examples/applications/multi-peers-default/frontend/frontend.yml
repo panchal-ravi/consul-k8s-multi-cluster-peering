@@ -60,7 +60,8 @@ spec:
               # value: 'http://backend.virtual.dc2-default.peer.consul'
               # value: 'http://backend.virtual.dc1a-default.consul,http://backend.virtual.dc1b-default.consul'
               # value: 'http://localhost:9091'
-              value: 'http://backend.virtual.consul' #Virtual service using transparent proxy enhancements
+              # value: 'http://backend.virtual.consul' #Virtual service using transparent proxy enhancements
+              value: 'http://backend.virtual.dc1a-default.consul' #Virtual service using transparent proxy enhancements
             - name: 'NAME'
               value: 'frontend'
             - name: 'MESSAGE'

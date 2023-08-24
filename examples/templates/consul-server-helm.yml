@@ -32,8 +32,8 @@ server:
   exposeService:
     enabled: true
     type: LoadBalancer
-    # annotations: |
-    #   "service.beta.kubernetes.io/aws-load-balancer-type": "nlb"
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
     #   "service.beta.kubernetes.io/aws-load-balancer-internal": "true"
   securityContext:
     runAsNonRoot: false
@@ -47,21 +47,24 @@ dns:
 ui:
   service:
     type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
 connectInject:
   enabled: true
+  apiGateway:
+    manageExternalCRDs: true
   consulNamespaces:
     mirroringK8s: true
-  # envoyExtraArgs: "--log-level debug"
+  # envoyExtraArgs: "--log-level=debug"
 controller:
   enabled: true
 meshGateway:
   enabled: true
+  service:
+    type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-type": "legacy"
   replicas: 1
-# apiGateway:
-#   enabled: true
-#   image: "hashicorp/consul-api-gateway:0.5.1"
-#   managedGatewayClass:
-#     serviceType: LoadBalancer
 terminatingGateways:
   enabled: true
   defaults:
@@ -72,9 +75,17 @@ ingressGateways:
     replicas: ${replicas}
     service:
       type: LoadBalancer
+      annotations: |
+        "service.beta.kubernetes.io/aws-load-balancer-type": "external"
+        "service.beta.kubernetes.io/aws-load-balancer-nlb-target-type": "ip"
+        "service.beta.kubernetes.io/aws-load-balancer-scheme": "internet-facing"
       ports:
-        - port: 3306
+        - port: 8080
   # gateways:
   # - name: ingress-gateway
   #   service:
   #     type: LoadBalancer
+# client:
+#   enabled: true
+# prometheus:
+#   enabled: true

@@ -1,6 +1,6 @@
 {
   "Node": "external-service",
-  "Address": "a863c687d3867420aad6f4e7e67a3b7e-1071203489.ap-southeast-1.elb.amazonaws.com",
+  "Address": "aa510d7e31b2148fda1066106eeb6495-1989613715.ap-southeast-1.elb.amazonaws.com",
   "NodeMeta": {
     "external-node": "true",
     "external-probe": "true"
@@ -10,6 +10,5 @@
     "Service": "external-service",
     "Port": 80
   },
-  "Partition": "hr"
+  "Partition": "default"
 }
-  

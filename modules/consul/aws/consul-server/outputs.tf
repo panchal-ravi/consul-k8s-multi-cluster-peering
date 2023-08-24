@@ -28,3 +28,9 @@ output "consul_partitions_acl_token" {
   description = "Consul server partition ACL token"
   value       = data.kubernetes_secret.consul-partitions-acl-token.data
 }
+
+output "consul-bootstrap-acl-token" {
+  description = "Consul server bootstrap ACL token"
+  value       = data.kubernetes_secret.consul-bootstrap-acl-token.data
+  sensitive   = true
+}

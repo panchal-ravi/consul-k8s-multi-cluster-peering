@@ -3,6 +3,8 @@ kind: PeeringAcceptor
 metadata:
   # name: dc1
   name: dc2-default
+  annotations:
+    consul.hashicorp.com/peering-version: "1" ## The peering version you want to set, must be in quotes
 spec:
   peer:
     secret:

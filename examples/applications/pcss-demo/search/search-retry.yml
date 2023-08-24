@@ -1,0 +1,11 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: search
+spec:
+  routes:
+  - destination:
+      requestTimeout: 10s
+      numRetries: 3
+      retryOnConnectFailure: true
+      retryOnStatusCodes: [500, 501, 502, 503]

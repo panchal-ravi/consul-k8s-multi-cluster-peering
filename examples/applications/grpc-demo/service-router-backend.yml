@@ -1,0 +1,31 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: backend
+spec:
+  routes:
+    - match:
+        http:
+          header:
+            - name: x-az
+              exact: "az1"
+      destination:
+        service: backend
+        serviceSubset: az1
+    - match:
+        http:
+          header:
+            - name: "x-az"
+              exact: "az2"
+      destination:
+        service: backend
+        serviceSubset: az2
+    # - match:
+    #     http:
+    #       header:
+    #         - name: x-az
+    #           exact: "az3"
+    #   destination:
+    #     service: backend
+    #     serviceSubset: az3
+  # NOTE: a default catch-all will send unmatched traffic to "backend"

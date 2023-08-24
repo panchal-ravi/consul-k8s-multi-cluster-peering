@@ -1,0 +1,15 @@
+{
+  "Node": "dev-external-service-v1",
+  "Address": "10.10.20.10",
+  "NodeMeta": {
+    "external-node": "true",
+    "external-probe": "true"
+  },
+  "Service": {
+    "ID": "dev-external-service-v1",
+    "Service": "dev-external-service",
+    "Address": "10.10.20.10",
+    "Port": 80
+  },
+  "Partition": "default"
+}

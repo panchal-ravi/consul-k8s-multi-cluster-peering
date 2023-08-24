@@ -1,5 +1,5 @@
 data "aws_caller_identity" "current" {}
-/*
+
 resource "aws_iam_role" "load-balancer-role" {
   for_each = var.eks_clusters
   name     = "AmazonEKSLoadBalancerControllerRole_${each.key}"
@@ -31,7 +31,6 @@ resource "aws_iam_role_policy_attachment" "load_balancer_role_attach" {
   role       = aws_iam_role.load-balancer-role[each.key].name
   policy_arn = "arn:aws:iam::475368203962:policy/AWSLoadBalancerControllerIAMPolicy"
 }
-*/
 
 resource "aws_iam_role" "ebs-csi-role" {
   for_each = var.eks_clusters

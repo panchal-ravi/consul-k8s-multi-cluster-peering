@@ -33,7 +33,7 @@ spec:
       annotations:
         consul.hashicorp.com/connect-inject: 'true'
         consul.hashicorp.com/enable-metrics-merging: "false"
-        consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: 3.0.154.29/32
+        # consul.hashicorp.com/transparent-proxy-exclude-outbound-cidrs: 3.0.154.29/32
         # consul.hashicorp.com/connect-service-upstreams: 'fake-service:9091, jsonplaceholder-http:9092'
         # consul.hashicorp.com/connect-service-upstreams: 'external-service:9091'
     spec:
@@ -47,7 +47,8 @@ spec:
             - name: 'LISTEN_ADDR'
               value: '0.0.0.0:9090'
             - name: 'UPSTREAM_URIS'
-              value: 'http://external-service.virtual.hr.ap.consul'
+              value: 'http://external-service.virtual.consul'
+              # value: 'https://jsonplaceholder.typicode.com/users/1'
             - name: 'NAME'
               value: 'web'
             - name: 'MESSAGE'
